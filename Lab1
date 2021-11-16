@@ -1,0 +1,39 @@
+;*******#1*******
+(define create-block-exp
+  (lambda (lst)
+    (lst(1 2 3 4 5 6 7 8))))
+
+;*******#2*******
+(define get-sum
+  (lambda (num1 num2)
+    (+ num1 num2)))
+
+(define count-block-exp
+  (lambda (block-exp)
+    (cond
+      ((eq? (car block-exp) (check-symbol ('() car block-exp))) (count-block-exp(cadr block-exp)))
+      (get-sum ((car block-exp) (cadr block-exp)))
+      (count-block-exp (cadr block-exp)))))
+      
+      
+
+;*******#3*******
+(define check-symbol
+  (lambda (lst block-exp)
+    (cond
+      ((eq? car block-exp '+) (append (lst "+") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '-) (append (lst "-") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '*) (append (lst "*") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '/) (append (lst "/") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '%) (append (lst "%") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '!) (append (lst "!") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '<) (append (lst "<") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '>) (append (lst ">") (check-symbol (cadr block-exp lst))))
+      ((eq? car block-exp '=) (append (lst "=") (check-symbol (cadr block-exp lst))))
+      (else #f))))
+
+(define collect-symbols
+  (lambda (block-exp)
+    (cond
+      ((null? block-exp) #f)
+      (check-symbol ('() block-exp)))))
